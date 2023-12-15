@@ -6,9 +6,10 @@ import {
 } from '@nestjs/common';
 import { CatsModule } from './cats/cats.module';
 import { logger } from './logger.middleware';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [CatsModule],
+  imports: [ConfigModule.forRoot(), CatsModule],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

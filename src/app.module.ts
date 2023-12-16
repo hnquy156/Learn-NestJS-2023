@@ -8,6 +8,7 @@ import { CatsModule } from './cats/cats.module';
 import { logger } from './logger.middleware';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -19,14 +20,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PW,
       database: process.env.DB_DATABASE,
-      entities: [],
+      autoLoadEntities: true,
       retryAttempts: 1,
+      synchronize: true,
       options: {
         trustServerCertificate: true,
         enableArithAbort: true,
       },
     }),
     CatsModule,
+    UsersModule,
   ],
 })
 export class AppModule implements NestModule {

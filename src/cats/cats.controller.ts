@@ -5,18 +5,22 @@ import {
   Body,
   ParseIntPipe,
   Param,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateCatDto } from 'src/cats/dto/create-cat.dto';
 import { Cat } from 'src/cats/interfaces/cat.interface';
 import { CatsService } from 'src/cats/cats.service';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/auth/roles.decorator';
 
 @Controller('cats')
+@UseGuards(RolesGuard)
 export class CatsController {
   constructor(private catsService: CatsService) {}
 
+  @Roles(['admin'])
   @Get()
   async findAll(): Promise<Cat[]> {
-    console.log('findAll', process.env.TEST_VAR);
     return this.catsService.findAll();
   }
 
@@ -27,7 +31,6 @@ export class CatsController {
 
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number) {
-    console.log('🚀  id:', id);
     return this.catsService.findOne(id);
   }
 }

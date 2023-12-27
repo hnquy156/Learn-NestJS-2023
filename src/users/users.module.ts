@@ -9,5 +9,6 @@ import { UserSubscriber } from './user.subcriber';
   imports: [TypeOrmModule.forFeature([User])],
   providers: [UsersService, UserSubscriber],
   controllers: [UsersController],
+  exports: [UsersService],
 })
 export class UsersModule {}
